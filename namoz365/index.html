@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Namoz qahramoni – 365 kun</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f4f8f5;--card:#fff;--tx:#1b2b22;--mu:#5f7468;--g:#1f9d63;--g2:#d6f1e3;--ac:#f5b301;--bd:#dbe6df}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0f1a14;--card:#18271f;--tx:#e8f3ec;--mu:#9bb3a5;--g:#34c37f;--g2:#24493a;--ac:#ffc933;--bd:#2a3f33}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.4}
+main{max-width:760px;margin:0 auto;padding:14px}
+h1{font-size:1.5rem;margin:6px 0 2px}h2{font-size:1.1rem;margin:0 0 10px}
+.sub{color:var(--mu);margin:0 0 12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:14px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.st{text-align:center;background:var(--g2);border-radius:12px;padding:8px 2px}
+.st b{display:block;font-size:1.25rem}.st span{font-size:.72rem;color:var(--mu)}
+.bar{height:12px;background:var(--g2);border-radius:8px;overflow:hidden;margin-top:10px}
+.bar i{display:block;height:100%;background:var(--g);width:0;transition:width .4s}
+.pr{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.pb{border:2px solid var(--bd);background:var(--card);color:var(--tx);border-radius:14px;padding:10px 2px;font:inherit;cursor:pointer;position:relative}
+.pb .e{font-size:1.6rem;display:block}.pb small{font-size:.75rem}
+.pb.on{background:var(--g);border-color:var(--g);color:#fff}
+.pb.on::after{content:"✔";position:absolute;top:2px;right:6px;font-weight:700}
+#msg{margin-top:10px;font-weight:600;min-height:1.4em}
+.cal{display:grid;grid-template-columns:repeat(auto-fill,minmax(34px,1fr));gap:4px;max-height:360px;overflow-y:auto}
+.c{aspect-ratio:1;border-radius:8px;border:2px solid transparent;font-size:.68rem;display:flex;align-items:center;justify-content:center;background:var(--g2);color:var(--tx);cursor:pointer;padding:0;font-family:inherit}
+.c[data-n="1"]{background:#bfe8d3;color:#14412c}.c[data-n="2"]{background:#8fd8b4;color:#14412c}.c[data-n="3"]{background:#5bc58f;color:#0b2d1d}.c[data-n="4"]{background:#2fae6f;color:#fff}.c[data-n="5"]{background:#117a49;color:#fff}
+.c.t{border-color:var(--ac)}.c.s{outline:2px solid var(--tx)}.c.f{opacity:.5}
+.chart{display:flex;align-items:flex-end;gap:5px;height:130px}
+.chart div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font-size:.68rem;color:var(--mu)}
+.chart i{display:block;width:100%;background:var(--g);border-radius:6px 6px 0 0;min-height:2px}
+.ms{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.m{border:2px dashed var(--bd);border-radius:14px;padding:10px;text-align:center;font-size:.8rem}
+.m .big{font-size:2.2rem;filter:grayscale(1);opacity:.45}
+.m.ok{border:2px solid var(--ac)}.m.ok .big{filter:none;opacity:1}
+.m b{display:block}.m em{color:var(--mu);font-style:normal}
+.yr{background:linear-gradient(135deg,var(--g2),var(--card))}
+ul{margin:6px 0 0;padding-left:20px}
+button.reset{background:none;border:1px solid var(--bd);color:var(--mu);border-radius:10px;padding:6px 10px;font:inherit;cursor:pointer}
+</style></head><body><main>
+<h1>🕌 Namoz qahramoni — 365 kun</h1>
+<p class="sub">Har namoz uchun +10 XP, 5 mahal to‘liq o‘qisang +20 bonus! Bir yilda 12 ta mukofot ochasan.</p>
+
+<div class="card"><div class="stats" id="stats"></div>
+<div class="bar"><i id="xpb"></i></div><div class="sub" id="lv" style="margin:6px 0 0"></div></div>
+
+<div class="card"><h2 id="dt"></h2><div class="pr" id="pr"></div><div id="msg"></div></div>
+
+<div class="card"><h2>📅 365 kunlik jadval</h2>
+<p class="sub">Kunni bosib, o‘sha kun namozlarini belgilaysan. Rang to‘qroq — ko‘proq namoz.</p><div class="cal" id="cal"></div></div>
+
+<div class="card"><h2>📊 Oylar bo‘yicha diagramma</h2><div class="chart" id="chart"></div>
+<p class="sub" style="margin-top:8px">Har ustun — o‘sha oydagi o‘qilgan namozlar ulushi.</p></div>
+
+<div class="card"><h2>🎁 12 ta mukofot (oyiga 80% namoz kerak)</h2><div class="ms" id="ms"></div></div>
+
+<div class="card yr"><h2>🏆 Bir yildan keyin</h2><ul>
+<li>365 kun × 5 mahal = <b>1 825 ta namoz</b></li>
+<li>Maksimal <b>25 550 XP</b> va 10-daraja: <b>Namoz Qahramoni</b></li>
+<li>1 oydan keyin: 150 namoz, 2 100 XP, 1-mukofot 🌱</li>
+<li>12 ta mukofot + yil oxirida katta sovg‘a 🎉</li></ul>
+<p style="margin:10px 0 0"><button class="reset" id="rs">Qaytadan boshlash</button></p></div>
+</main>
+<script>
+const P=[["Bomdod","🌅"],["Peshin","☀️"],["Asr","🌤️"],["Shom","🌇"],["Xufton","🌙"]];
+const M=[["🌱","Nihol","Sevimli ovqat"],["🌿","Maysa","Muzqaymoq"],["🌼","Gul","Do‘stlar bilan o‘yin"],["🌳","Daraxt","Kinoga borish"],["🍎","Meva","Kitob sovg‘a"],["⭐","Yulduz","Futbol / sayr"],["🏅","Medal","Pitsa kechasi"],["🚲","Velosiped kuni","Velosiped sayri"],["🎮","O‘yin kuni","Maxsus o‘yin vaqti"],["🏆","Kubok","Tanlagan sovg‘ang"],["👑","Toj","Katta sayohat"],["🕌","Namoz qahramoni","Yil oxiri sovg‘asi!"]];
+const LV=["Yangi bola","Izlovchi","Shogird","Jangchi","Ritsar","Usta","Chempion","Dono","Sardor","Namoz Qahramoni"];
+const $=id=>document.getElementById(id);
+const iso=d=>new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);
+let st={start:iso(new Date()),d:Array(365).fill(0)};
+try{const s=localStorage.getItem('namoz365');if(s){const o=JSON.parse(s);if(o&&o.d&&o.d.length==365)st=o}}catch(e){}
+const save=()=>{try{localStorage.setItem('namoz365',JSON.stringify(st))}catch(e){}};
+const cnt=m=>[0,1,2,3,4].filter(i=>m>>i&1).length;
+const todayI=()=>Math.max(0,Math.min(364,Math.floor((new Date(new Date().toDateString())-new Date(st.start+'T00:00'))/864e5)));
+let sel=todayI();
+const blk=i=>Math.min(11,Math.floor(i/30));
+function xpOf(){return st.d.reduce((a,m)=>a+cnt(m)*10+(cnt(m)==5?20:0),0)}
+function streak(){let t=todayI(),n=0;if(cnt(st.d[t])<5)t--;for(;t>=0&&cnt(st.d[t])==5;t--)n++;return n}
+function msgFor(n,s){if(n==5)return"🎉 Barakalla! Bugun 5 mahal ham o‘qiding: +20 bonus XP!"+(s>=7?" 🔥 "+s+" kunlik seriya!":"");if(n==0)return"Bugun hali boshlamading. Bomdoddan boshla! 💪";return n+"/5 — yana "+(5-n)+" ta qoldi, zo‘rsan!"}
+function render(){
+ const t=todayI(),xp=xpOf(),s=streak(),tot=st.d.reduce((a,m)=>a+cnt(m),0),lv=Math.min(9,Math.floor(xp/2555));
+ $('stats').innerHTML=[["⭐",xp,"XP"],["🔥",s,"kun seriya"],["✅",tot,"/1825 namoz"],["📆",t+1,"-kun"]].map(x=>`<div class="st"><b>${x[0]} ${x[1]}</b><span>${x[2]}</span></div>`).join("");
+ $('xpb').style.width=Math.min(100,xp/25550*100)+"%";
+ $('lv').textContent="Daraja "+(lv+1)+": "+LV[lv];
+ const d=new Date(st.start+'T00:00');d.setDate(d.getDate()+sel);
+ $('dt').textContent=(sel+1)+"-kun · "+d.toLocaleDateString('uz-UZ',{day:'numeric',month:'long'})+(sel==t?" (bugun)":"");
+ $('pr').innerHTML=P.map((p,i)=>`<button class="pb ${st.d[sel]>>i&1?'on':''}" data-i="${i}"><span class="e">${p[1]}</span><small>${p[0]}</small></button>`).join("");
+ const n=cnt(st.d[sel]);$('msg').textContent=msgFor(n,s);
+ $('cal').innerHTML=st.d.map((m,i)=>`<button class="c${i==t?' t':''}${i==sel?' s':''}${i>t?' f':''}" data-n="${cnt(m)}" data-k="${i}">${i+1}</button>`).join("");
+ const bars=[],ms=[];
+ for(let b=0;b<12;b++){const a=b*30,e=b==11?365:a+30;let c=0;for(let i=a;i<e;i++)c+=cnt(st.d[i]);const pc=c/((e-a)*5),ok=pc>=.8;
+  bars.push(`<div><span>${Math.round(pc*100)}%</span><i style="height:${Math.max(2,pc*100)}px"></i>${b+1}</div>`);
+  ms.push(`<div class="m ${ok?'ok':''}"><div class="big">${M[b][0]}</div><b>${b+1}-oy: ${M[b][1]}</b><em>${ok?'🎁 '+M[b][2]:'🔒 '+M[b][2]}</em></div>`)}
+ $('chart').innerHTML=bars.join("");$('ms').innerHTML=ms.join("");
+}
+$('pr').onclick=e=>{const b=e.target.closest('.pb');if(!b)return;st.d[sel]^=1<<(+b.dataset.i);save();render()};
+$('cal').onclick=e=>{const b=e.target.closest('.c');if(!b)return;sel=+b.dataset.k;render()};
+$('rs').onclick=()=>{if(confirm("Hamma belgilar o‘chadi. Qaytadan boshlaymizmi?")){st={start:iso(new Date()),d:Array(365).fill(0)};sel=0;save();render()}};
+render();
+</script></body></html>
